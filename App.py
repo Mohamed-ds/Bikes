@@ -1,16 +1,11 @@
 # -*- coding: utf-8 -*-
 """
-Created on Wed Nov 23 13:30:39 2022
-
-
-
-
 @author: Araby
 """
 
 
 #------------------------------------------
-# Step 0 - Import Libraies
+# Import Libraies
 #------------------------------------------
 
 import pandas as pd
@@ -21,14 +16,14 @@ import math
 
 
 #------------------------------------------
-# Step 1 - Read Data
+# Read Data
 #------------------------------------------
 
 bikes = pd.read_csv('hour.csv')
 
 
 #------------------------------------------
-# Step 2 - Prelim analysis and features selection
+# Prelim analysis and features selection
 #------------------------------------------
 
 bikes_prep = bikes.copy()
@@ -41,7 +36,7 @@ bikes_prep.isnull().sum()
 
 
 #------------------------------------------
-# Step 3 - Data Visualisation
+# Data Visualisation
 #------------------------------------------
 
 
@@ -129,7 +124,7 @@ bikes_prep['demand'].quantile([0.05,.15,.25,.35,.45,.55,.65,.75,.85,.95,.99,1])
 
 
 #------------------------------------------
-# Step 4 - Check Multiple Linear Regression Asspumption
+# Check Multiple Linear Regression Asspumption
 #------------------------------------------
 
 correlation = bikes_prep[['temp','atemp','humidity','windspeed','demand']].corr()
@@ -139,7 +134,7 @@ correlation = bikes_prep[['temp','atemp','humidity','windspeed','demand']].corr(
 
 
 #------------------------------------------
-# Step 5 - Drop irrelevant features
+# Drop irrelevant features
 #------------------------------------------
 
 bikes_prep = bikes_prep.drop(['atemp','windspeed'],axis=1)
@@ -152,7 +147,7 @@ plt.acorr(df1,maxlags=12)
 
 
 #------------------------------------------
-# Step 6 - Create / Modify new features
+# Create / Modify new features
 #------------------------------------------
 
 
@@ -183,7 +178,7 @@ bikes_prep_lag = pd.concat([bikes_prep,t_1,t_2,t_3],axis=1)
 bikes_prep_lag = bikes_prep_lag.dropna()
 
 #------------------------------------------
-# Step 7 - Create Dummy variables and drop frist to avoid dummy varialbles trap   
+# Create Dummy variables and drop frist to avoid dummy varialbles trap   
 #------------------------------------------
 
 bikes_prep_lag['season']= bikes_prep_lag['season'].astype('category')
@@ -197,7 +192,7 @@ bikes_prep_lag = pd.get_dummies(bikes_prep_lag,drop_first=True)
 
 
 #------------------------------------------
-# Step 8 - Create Train and test Split
+# Create Train and test Split
 #------------------------------------------
 
 Y = bikes_prep_lag['demand']
@@ -217,7 +212,7 @@ y_test = Y.values[tr_size:len(Y)]
 
 
 #------------------------------------------
-# Step 9 - Fit and Score the model
+# Fit and Score the model
 #------------------------------------------
 
 from sklearn.linear_model import LinearRegression
